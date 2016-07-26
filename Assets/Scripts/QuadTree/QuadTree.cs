@@ -2,7 +2,17 @@
 using System.Collections.Generic ;
 // using System.Collections ;
 // [System.SerializableAttribute]
-public class QuadTree { 
+public class QuadTree {
+
+
+
+
+
+
+
+
+
+
 	// private Rect size ;
 	private int maxTargets ; //
 	private int maxLevels ;
@@ -151,16 +161,18 @@ public class QuadTree {
 				if(rank != -1) {
 					// Debug.Log(rank);
 					var re = Nodes[rank].retrieve(collider);
-					getTargets.AddRange(re);
-					// getTargets.InsertRange(getTargets.Count -1, Nodes[rank].retrieve(collider) ) ;
+					// getTargets.AddRange(re);
+					if(re.Length != 0)
+					getTargets.InsertRange(getTargets.Count -1, Nodes[rank].retrieve(collider) ) ;
 				}
 				else {
 					for(var i = 0 ; i < Nodes.Count ; i++) {
 						// Debug.Log(Nodes[i]);
 						// Debug.Log(Nodes[i]+"i"+i);
 						var re = Nodes[i].retrieve(collider) ;
-						getTargets.AddRange(re);
-						// getTargets.InsertRange(getTargets.Count -1 , re) ;
+						// getTargets.AddRange(re);
+						if(re.Length != 0)
+						getTargets.InsertRange(getTargets.Count -1 , re) ;
 					}
 				}
 			}
