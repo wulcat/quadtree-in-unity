@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 
 public class Map : MonoBehaviour {
+
+	// public Rect rect ;
+
 	public BoxCollider main ;
 	public QuadTree quadTree = new QuadTree(
 		new Rect(0,0,1000,1000),
@@ -13,6 +16,7 @@ public class Map : MonoBehaviour {
 	public BoxCollider[] quadReturns ;
 	// Use this for initialization
 	void Start () {
+
 		// quadTree.Move(transform.position);
 		quadTree.clear() ;
 		quadTree.split() ;
@@ -26,24 +30,45 @@ public class Map : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		quadReturns = null ;
-		quadTree.clear() ;
+		
 		quadTree.split() ;
 		tar.Clear() ;
 		tar.AddRange(GameObject.FindGameObjectsWithTag("quad-targets")) ;
+		
 		for(var i = 0 ; i < tar.Count ; i++) {
+			tar[i].GetComponent<MeshRenderer>().material.color = Color.blue ;
 			quadTree.insert(tar[i].GetComponent<BoxCollider>()) ;
 		}
 		quadReturns = quadTree.retrieve(main);
+		
+		for(var i = 0 ; i < quadReturns.Length ; i++) {
+			quadReturns[i].gameObject.GetComponent<MeshRenderer>().material.color = Color.red ;
+		}
+		quadTree.clear() ;
 
 	}
 	void OnDrawGizmos() {
 		var bounds = quadTree.mapSize ;
 		Gizmos.color = Color.red ;
-		Gizmos.DrawWireCube(transform.position , new Vector3(bounds.size.x , bounds.size.y));
-		for(var i = 0 ; i < quadTree.Nodes.Count ; i++) {
-			bounds = quadTree.Nodes[i].mapSize ;
-			Gizmos.color = Color.green ;
-			Gizmos.DrawWireCube(new Vector3(bounds.center.x , bounds.center.y) , new Vector3(bounds.size.x , bounds.size.y));
+		// Gizmos.DrawWireCube(transform.position , new Vector3(bounds.size.x , bounds.size.y));
+		// for(var i = 0 ; i < quadTree.Nodes.Count ; i++) {
+		// 	bounds = quadTree.Nodes[i].mapSize ;
+		// 	Gizmos.color = Color.green ;
+		// 	Gizmos.DrawWireCube(new Vector3(bounds.center.x , bounds.center.y) , new Vector3(bounds.size.x , bounds.size.y));
+		// }
+		DrawLoop(quadTree);
+	}
+	void DrawLoop(QuadTree quad) {
+		var bounds = quad.mapSize ;
+		// for(var i = 0 ; i < quadTree.Nodes.Count ; i++) {
+		// 	bounds = quadTree.Nodes[i].mapSize ;
+		// 	Gizmos.color = Color.green ;
+		Gizmos.DrawWireCube(new Vector3(bounds.center.x , bounds.center.y) , new Vector3(bounds.size.x , bounds.size.y));
+		// }
+
+		for(var i = 0 ; i < quad.Nodes.Count ; i++) {
+			DrawLoop(quad.Nodes[i]);
 		}
+		
 	}
 }

@@ -7,7 +7,7 @@ public class QuadTree {
 	private int maxTargets ; //
 	private int maxLevels ;
 	private int levels ;
-	private List<Rect> objects ;
+	// private List<Rect> objects ;
 	
 	public List<QuadTree> Nodes = new List<QuadTree>() ; //
 	private object sortLock = new object() ;
@@ -103,8 +103,9 @@ public class QuadTree {
 		lock(sortLock) {
 			var i = 0 ;
 			var rank = 0 ;
-		
-			if(Nodes[0] != null) {
+
+
+			if(Nodes.Count > 0 && Nodes[0] != null) {
 				rank = getId(collider.bounds) ;
 				if(rank != -1) {
 					Nodes[rank].insert(collider) ;
