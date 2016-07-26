@@ -28,6 +28,8 @@ public class Map : MonoBehaviour {
 		quadReturns = null ;
 		quadTree.clear() ;
 		quadTree.split() ;
+		tar.Clear() ;
+		tar.AddRange(GameObject.FindGameObjectsWithTag("tar")) ;
 		for(var i = 0 ; i < tar.Count ; i++) {
 			quadTree.insert(tar[i].GetComponent<BoxCollider>()) ;
 		}
@@ -37,11 +39,11 @@ public class Map : MonoBehaviour {
 	void OnDrawGizmos() {
 		var bounds = quadTree.mapSize ;
 		Gizmos.color = Color.red ;
-		Gizmos.DrawWireCube(transform.position , new Vector3(bounds.max.x , 0 , bounds.max.y));
+		Gizmos.DrawWireCube(transform.position , new Vector3(bounds.size.x , 0 , bounds.size.y));
 		for(var i = 0 ; i < quadTree.Nodes.Count ; i++) {
 			bounds = quadTree.Nodes[i].mapSize ;
 			Gizmos.color = Color.green ;
-			Gizmos.DrawWireCube(bounds.center , new Vector3(bounds.max.x , 0 , bounds.max.y));
+			Gizmos.DrawWireCube(new Vector3(bounds.center.x , 0 , bounds.center.y) , new Vector3(bounds.size.x , 0 , bounds.size.y));
 		}
 	}
 }
