@@ -33,6 +33,7 @@ Thumbs.db
 /*.sln
 /.vscode
 /*.vscode
+/*.*vscode
 launch.json
 
 
