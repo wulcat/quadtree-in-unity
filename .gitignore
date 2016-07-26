@@ -33,6 +33,8 @@ Thumbs.db
 /*.sln
 /.vscode
 /*.vscode
+launch.json
+
 
 # Unity3D generated meta files
 *.pidb.meta
